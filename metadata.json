@@ -1,0 +1,8 @@
+{
+  "name": "F1 Driver Grid Builder",
+  "description": "Create custom Formula 1 grids, assign drivers to constructors, explore historic & alternate seasons, and export high-resolution paddock posters.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

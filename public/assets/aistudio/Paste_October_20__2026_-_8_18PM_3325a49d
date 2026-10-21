@@ -1,0 +1,861 @@
+# FULL WEBSITE BUILD PROMPT — F1 DRIVER GRID BUILDER
+
+## 1. Project Overview
+
+Build a complete, production-ready Formula 1 fan website called **F1 Driver Grid Builder**.
+
+The platform allows fans to create custom Formula 1 grids, assign drivers to constructors, explore alternate-history seasons, recreate historic lineups, and export their creations as high-quality posters.
+
+The website must include a fully functional, password-protected admin dashboard with complete CRUD operations for teams, drivers, cars, seasons, and driver-team assignments.
+
+**Supabase must be the central backend and single source of truth.** All team data, driver profiles, car information, statistics, assignments, and saved lineups must be fetched from or persisted to Supabase. Do not hardcode the production dataset into the frontend.
+
+Build a real, working full-stack application, not a static mockup or a UI-only prototype.
+
+## 2. Technology Stack
+
+Use the following technologies:
+
+- Frontend: React with Vite and TypeScript.
+- Styling: Tailwind CSS.
+- Components: shadcn/ui or equivalent accessible component library.
+- Icons: Lucide.
+- Backend and database: Supabase PostgreSQL.
+- Authentication: Supabase Auth.
+- Image storage: Supabase Storage.
+- Database security: PostgreSQL Row Level Security (RLS).
+- Routing: React Router.
+- Data fetching: TanStack Query or an equivalent caching solution.
+- Form validation: React Hook Form with Zod.
+- Notifications: Toast notifications for success, errors, and confirmations.
+- Image export: HTML Canvas or a suitable image-rendering library that exports actual PNG files.
+- Deployment: Vercel-compatible production build.
+
+Use reusable components, a clean service layer, typed database models, environment variables, proper error handling, and maintainable project structure.
+
+## 3. Visual Design and Brand Identity
+
+Create a premium motorsport-inspired interface with a professional F1 paddock aesthetic.
+
+### Design system
+
+- Primary background: near-black charcoal.
+- Secondary surfaces: dark graphite and carbon-inspired panels.
+- Accent color: racing red.
+- Typography: bold, condensed display typography for headings and clean sans-serif typography for body text.
+- Cards: subtle borders, rounded corners, controlled shadows, and strong visual hierarchy.
+- Buttons: high-contrast primary actions and restrained secondary actions.
+- Animations: subtle hover transitions, smooth panel changes, and restrained loading effects.
+- Layout: responsive grids, generous spacing, and clear information hierarchy.
+
+Use team-specific colors for constructor cards and driver accents where appropriate.
+
+The interface should feel like a combination of a professional motorsport data platform, a racing-game team management screen, and a modern editorial website.
+
+Avoid excessive gradients, excessive glassmorphism, generic dashboard templates, and unnecessary animations.
+
+Support desktop, tablet, and mobile layouts.
+
+## 4. Public Website
+
+### A. Home Page
+
+Create a visually impressive landing page featuring:
+
+- Hero section with the title “Build Your Own F1 Grid.”
+- Supporting text explaining custom lineups and alternate seasons.
+- Primary CTA: “Build Your Grid.”
+- Secondary CTA: “Explore Drivers.”
+- Featured current-season constructors and drivers, loaded from Supabase.
+- Popular custom lineups, if public lineups exist.
+- Historic season exploration section.
+- Featured driver and constructor cards.
+- A clear introduction to the Grid Builder.
+- Footer with navigation, credits, and appropriate fan-project disclaimer.
+
+Do not invent current driver-team relationships. Fetch them from the configured database.
+
+### B. Driver Directory
+
+Create a searchable, filterable driver library.
+
+Each driver record must support:
+
+- Full name.
+- Three-letter driver code.
+- Nationality.
+- Biography.
+- Driver-card image.
+- Podium image.
+- Grid image.
+- Season-specific constructor assignments.
+
+Features:
+
+- Search by name or driver code.
+- Filter by nationality.
+- Filter by season.
+- Filter by constructor.
+- Sort alphabetically.
+- Driver profile detail page.
+- Show historical team affiliations.
+- Display missing images with designed placeholders.
+- Responsive driver card grid.
+
+Fetch all driver information from Supabase.
+
+### C. Constructor Directory
+
+Display constructors with:
+
+- Team name.
+- Logo.
+- Headquarters.
+- Biography.
+- Team-specific accent color, if configured.
+- Available cars by season.
+- Season statistics.
+- Assigned drivers by season.
+
+Allow searching and filtering by season.
+
+### D. Season Explorer
+
+Create a historical and alternate-season browser.
+
+Users can select a season and view:
+
+- Participating constructors.
+- Their cars.
+- Driver pairings.
+- Team wins.
+- Pole positions.
+- Podiums.
+- Championship points.
+
+Support classic seasons, modern seasons, and fictional seasons.
+
+Historical statistics must be stored as season-specific records. Do not automatically reuse one year's statistics for another year.
+
+### E. Public Grid Builder
+
+This is the main feature of the website.
+
+Allow users to create custom Formula 1 grids with exactly 10, 11, or 12 teams.
+
+Each constructor has two primary driver seats.
+
+#### Grid configuration
+
+- Grid name.
+- Season year or alternate-season label.
+- Team count: 10, 11, or 12.
+- Constructor selection for every team.
+- Driver selection for both seats.
+- Optional custom constructor names for fictional teams.
+- Optional custom team colors and logos where permitted.
+- Save, duplicate, edit, and delete custom grids.
+- Reset grid with a confirmation dialog.
+- Preview the complete lineup.
+- Export the finished grid as a poster.
+
+#### Driver assignment interface
+
+Build a polished visual editor with:
+
+- Team cards.
+- Constructor logo.
+- Team name.
+- Driver 1 and Driver 2 slots.
+- Driver portraits.
+- Driver names and codes.
+- Searchable driver selection modal.
+- Drag-and-drop assignment on supported desktop devices.
+- Accessible dropdown-based assignment on all devices.
+- Clear and replace seat actions.
+- Immediate visual updates when assignments change.
+
+#### Validation rules
+
+- The same driver cannot occupy multiple seats within the same lineup.
+- A constructor cannot be duplicated within a lineup by default.
+- Users can optionally enable duplicate constructors for fictional scenarios.
+- Each standard constructor has exactly two seats.
+- Incomplete grids can be saved as drafts.
+- A grid can be marked complete only when all required seats are filled.
+- Changing a seat must immediately update the preview.
+- Validation must happen in both the client and server/database layer where applicable.
+
+Allow fictional constructors, historical pairings, and driver transfers across alternate seasons.
+
+Do not restrict custom lineups to official real-world pairings.
+
+### F. Saved Grids
+
+Allow users to save their custom grids.
+
+Support:
+
+- Grid title.
+- Season.
+- Team count.
+- Driver assignments.
+- Team configurations.
+- Creation and update timestamps.
+- Draft or complete status.
+- Public or private visibility.
+- Duplicate grid.
+- Edit existing grid.
+- Delete grid.
+- Copy or share a public grid link.
+
+Authenticated users should manage their own saved grids. Anonymous visitors may experiment locally, but must sign in to save to their account.
+
+Public sharing must expose only the intended public lineup data.
+
+## 5. Poster and Image Export Studio
+
+Create a professional poster generator.
+
+Users should be able to export their custom grids as actual downloadable PNG files.
+
+### Poster options
+
+- Poster title.
+- Season or alternate-history label.
+- 10-, 11-, or 12-team layout.
+- Dark or light background.
+- Team-colored accents.
+- Constructor logos.
+- Driver-card images or grid images.
+- Driver names and three-letter codes.
+- Custom subtitle.
+- Optional creator credit.
+- Optional website branding.
+- Optional date label.
+
+### Layout
+
+Use a well-balanced, motorsport-editorial layout with:
+
+- Strong headline.
+- Season label.
+- Consistent constructor cards.
+- Clearly aligned driver portraits.
+- Legible driver names.
+- Correct image aspect ratios.
+- Appropriate whitespace.
+- Consistent typography.
+- No clipped text or overlapping images.
+
+Provide presets such as:
+
+- Official Grid Style.
+- Dark Paddock.
+- Minimal Lineup.
+- Championship Poster.
+
+### Export requirements
+
+- Export as PNG.
+- Support a high-resolution output suitable for sharing and printing.
+- Suggested formats: 1080 × 1350, 1920 × 1080, and a high-resolution poster format.
+- Generate the actual image in the browser.
+- Handle cross-origin images correctly so canvas export does not fail.
+- Show export progress and useful errors.
+- Never return an empty file or a screenshot of the editor as a substitute for a composed poster.
+
+Use licensed or user-provided imagery. Do not imply official Formula 1 endorsement.
+
+## 6. Admin Dashboard
+
+Create a dedicated admin application at `/admin`.
+
+All admin routes must require authentication and verified administrator authorization.
+
+Include a sidebar with:
+
+- Overview.
+- Teams.
+- Team Cars.
+- Drivers.
+- Seasons and Assignments.
+- Lineup Management.
+- Media Library.
+- Settings.
+
+### A. Admin Overview
+
+Show database-driven summary cards:
+
+- Total constructors.
+- Total drivers.
+- Total car-season records.
+- Total driver-team assignments.
+- Total saved lineups.
+- Number of available seasons.
+
+Display recent administrative activity if an activity log has been implemented.
+
+All counts must come from Supabase, not hardcoded values.
+
+### B. Team Management — Full CRUD
+
+Implement create, read, update, and delete operations.
+
+Team fields:
+
+- `id`
+- `name`
+- `slug`
+- `logo_url`
+- `hq`
+- `bio`
+- `primary_color`
+- `secondary_color`
+- `created_at`
+- `updated_at`
+
+Requirements:
+
+- Add team form.
+- Edit team form.
+- Delete team with confirmation.
+- Search by name.
+- Sort and paginate team records.
+- Upload and replace logos.
+- Preview logo before saving.
+- Validate required fields.
+- Prevent duplicate team names and slugs.
+- Display associated cars and driver assignments.
+- Warn before deleting a team with dependent records.
+
+If additional fields are introduced, add them to the database schema and generated types.
+
+### C. Team Car Management — Full CRUD
+
+Each constructor can have multiple car records, one per season.
+
+Fields:
+
+- `id`
+- `team_id`
+- `year`
+- `car_name`
+- `car_image_url`
+- `wins`
+- `poles`
+- `podiums`
+- `points`
+- `created_at`
+- `updated_at`
+
+Requirements:
+
+- Select the constructor from a searchable dropdown.
+- Enter the season year.
+- Add the car name.
+- Upload a car image or render.
+- Enter wins, pole positions, podiums, and championship points.
+- Edit and delete car records.
+- Filter by constructor and year.
+- Display historical statistics in a sortable table.
+- Prevent duplicate car records for the same constructor and year.
+- Validate nonnegative statistics and appropriate numeric precision.
+
+Treat these values as the statistics for the specified constructor-season record. If individual driver statistics are added later, store them separately.
+
+### D. Driver Management — Full CRUD
+
+Driver fields:
+
+- `id`
+- `name`
+- `code`
+- `nationality`
+- `bio`
+- `card_image_url`
+- `podium_image_url`
+- `grid_image_url`
+- `created_at`
+- `updated_at`
+
+Requirements:
+
+- Create a driver.
+- Edit a driver.
+- Delete a driver with confirmation.
+- Search by name and code.
+- Filter by nationality.
+- Upload each image independently.
+- Preview each image before saving.
+- Replace images without breaking existing profiles.
+- Validate three-character uppercase driver codes.
+- Enforce unique driver codes.
+- Display current and historical team assignments.
+- Display drivers in a sortable, paginated table.
+
+Each image field must have its own upload control and preview.
+
+### E. Season and Driver-Team Assignment Management
+
+Use a dedicated assignment table to preserve driver-team history.
+
+Assignment fields:
+
+- `id`
+- `driver_id`
+- `team_id`
+- `season_year`
+- `seat_number`
+- `created_at`
+- `updated_at`
+
+Requirements:
+
+- Assign a driver to a constructor for a specific season.
+- Choose seat 1 or seat 2.
+- Edit existing assignments.
+- Remove assignments without deleting the driver or team.
+- Filter by season and constructor.
+- Display both seats together.
+- Mark a season as the current season using explicit season configuration.
+- Support historic and fictional assignments.
+- Warn if an assignment conflicts with an existing seat.
+- Prevent a driver from being assigned to two constructors in the same season unless an explicitly modeled exception is needed.
+
+Do not implement historical data by overwriting a driver's single current-team field.
+
+### F. Lineup Management
+
+Administrators should be able to:
+
+- Browse saved public and private grids according to their authorization.
+- Search by lineup name and owner.
+- View a lineup.
+- Edit or remove inappropriate or invalid public lineups, with suitable authorization.
+- Inspect team and driver assignments.
+- Feature selected public lineups on the homepage.
+
+Avoid granting administrator powers through client-side role checks alone.
+
+### G. Media Library
+
+Create a centralized media interface showing:
+
+- Team logos.
+- Driver-card images.
+- Podium images.
+- Grid images.
+- Car images.
+
+Features:
+
+- Preview.
+- Search or filter by category.
+- Upload files.
+- Replace files.
+- Delete unused files.
+- Display file type and size.
+- Validate image formats and file size.
+
+Use predictable storage paths, for example:
+
+`teams/{team_id}/logo.webp`
+
+`drivers/{driver_id}/card.webp`
+
+`drivers/{driver_id}/podium.webp`
+
+`drivers/{driver_id}/grid.webp`
+
+`cars/{team_id}/{year}/car.webp`
+
+Use generated unique filenames where appropriate to avoid overwriting unrelated files.
+
+Deleting an image must not leave broken database references. Confirm the action and handle dependent references safely.
+
+## 7. Supabase Database Schema
+
+Create migrations for the following tables.
+
+### `teams`
+
+- `id uuid primary key`
+- `name text not null`
+- `slug text unique not null`
+- `logo_url text`
+- `hq text`
+- `bio text`
+- `primary_color text`
+- `secondary_color text`
+- `created_at timestamptz`
+- `updated_at timestamptz`
+
+### `team_cars`
+
+- `id uuid primary key`
+- `team_id uuid references teams(id)`
+- `year integer not null`
+- `car_name text`
+- `car_image_url text`
+- `wins integer default 0`
+- `poles integer default 0`
+- `podiums integer default 0`
+- `points numeric default 0`
+- `created_at timestamptz`
+- `updated_at timestamptz`
+
+Enforce uniqueness on `(team_id, year)`.
+
+### `drivers`
+
+- `id uuid primary key`
+- `name text not null`
+- `code text unique not null`
+- `nationality text`
+- `bio text`
+- `card_image_url text`
+- `podium_image_url text`
+- `grid_image_url text`
+- `created_at timestamptz`
+- `updated_at timestamptz`
+
+### `seasons`
+
+- `id uuid primary key`
+- `year integer`
+- `name text not null`
+- `season_type text`
+- `is_current boolean default false`
+- `is_published boolean default false`
+- `created_at timestamptz`
+- `updated_at timestamptz`
+
+Use a separate stable season identifier so fictional seasons with labels or multiple variants are not forced into a single unique calendar year. Define appropriate uniqueness rules for the chosen season model.
+
+### `driver_team_seasons`
+
+- `id uuid primary key`
+- `driver_id uuid references drivers(id)`
+- `team_id uuid references teams(id)`
+- `season_id uuid references seasons(id)`
+- `seat_number integer`
+- `created_at timestamptz`
+- `updated_at timestamptz`
+
+Enforce unique driver assignment within a season and unique constructor seat within a season.
+
+### `custom_lineups`
+
+- `id uuid primary key`
+- `created_by uuid references auth.users(id)`
+- `name text not null`
+- `season_id uuid references seasons(id)`
+- `team_count integer not null`
+- `status text`
+- `visibility text`
+- `created_at timestamptz`
+- `updated_at timestamptz`
+
+### `custom_lineup_teams`
+
+- `id uuid primary key`
+- `lineup_id uuid references custom_lineups(id)`
+- `team_id uuid references teams(id)` nullable when the user creates a fictional constructor
+- `custom_team_name text`
+- `custom_logo_url text`
+- `custom_primary_color text`
+- `position integer not null`
+
+Enforce unique positions within each lineup.
+
+### `custom_lineup_seats`
+
+- `id uuid primary key`
+- `lineup_team_id uuid references custom_lineup_teams(id)`
+- `driver_id uuid references drivers(id)`
+- `seat_number integer not null`
+
+Enforce one driver per seat and prevent duplicate drivers within the same lineup using an appropriate database constraint or transaction-safe database function.
+
+### `admin_roles`
+
+- `user_id uuid primary key references auth.users(id)`
+- `role text not null`
+- `created_at timestamptz`
+
+Only trusted administrators may grant or modify admin roles.
+
+Add foreign keys, indexes, validation constraints, timestamps, and update triggers as appropriate. Use database migrations to keep schema changes version-controlled.
+
+## 8. Supabase Storage
+
+Create the required buckets and access policies.
+
+Suggested buckets:
+
+- `team-logos`
+- `driver-images`
+- `car-images`
+- `lineup-posters`
+
+Requirements:
+
+- Public read access only for assets intended to be publicly displayed.
+- Restricted uploads, replacements, and deletions for administrators.
+- Private user uploads or saved artwork where privacy is required.
+- Validate MIME types and maximum file size.
+- Use stable database references and storage paths.
+- Clean up unused files safely.
+- Use signed URLs for private media.
+- Handle failed uploads and orphaned files.
+- Ensure poster export works with permitted remote images.
+
+Store paths in the database where possible instead of relying on expiring signed URLs.
+
+## 9. Security and Authorization
+
+Implement production-grade security.
+
+- Enable RLS on every table exposed through the Supabase API.
+- Public users may read only published and intentionally public content.
+- Administrators may manage teams, drivers, cars, seasons, assignments, and media.
+- Authenticated users may create and manage their own private lineups.
+- Users may update only their own lineups unless an explicitly authorized administrator action applies.
+- Public lineup reads must respect visibility.
+- Verify administrator privileges through a trusted database-backed role or secure authorization function.
+- Do not rely on hidden buttons or frontend routes for security.
+- Do not place a Supabase service-role or secret key in frontend code.
+- Use the publishable key in the client with appropriate RLS policies.
+- Add rate limits or abuse controls where appropriate.
+- Sanitize user-provided text and validate all inputs.
+- Use transactions or database functions for multi-record lineup updates and uniqueness validation.
+- Add appropriate error logging without exposing secrets or private user information.
+
+Generate a complete RLS policy migration and verify access using both anonymous and authenticated test accounts.
+
+## 10. Dynamic Supabase Data Fetching
+
+All public pages must fetch their data from Supabase.
+
+Implement reusable services such as:
+
+- `getTeams()`
+- `getTeamById(id)`
+- `getTeamCars(teamId, seasonId)`
+- `getDrivers(filters)`
+- `getDriverById(id)`
+- `getSeason(seasonId)`
+- `getSeasonGrid(seasonId)`
+- `createLineup(input)`
+- `updateLineup(id, input)`
+- `deleteLineup(id)`
+- `getPublicLineups()`
+
+Requirements:
+
+- Display loading skeletons.
+- Display useful empty states.
+- Display recoverable error messages.
+- Cache reads appropriately.
+- Invalidate or refresh relevant queries after successful mutations.
+- Avoid duplicate network requests.
+- Support pagination for large directories.
+- Filter and sort using database queries when appropriate.
+- Never silently replace failed Supabase requests with fake production data.
+- Use mock data only in a clearly separated development seed or test fixture.
+
+When an admin creates a driver or team, the new record should appear in the public directory and Grid Builder after a successful query refresh.
+
+## 11. Authentication
+
+Use Supabase Auth for administrator login.
+
+Provide:
+
+- Admin login page.
+- Session persistence.
+- Logout.
+- Protected admin routes.
+- Authorization checks.
+- Unauthorized access screen.
+- Password reset flow.
+- Clear session-expiry handling.
+
+Do not provide public administrator self-registration. Configure the first administrator through a trusted setup procedure.
+
+For regular users, support authenticated lineup saving and ownership controls. Anonymous grid building should remain possible without an account.
+
+## 12. Application Routes
+
+Implement the following routes.
+
+### Public
+
+- `/`
+- `/drivers`
+- `/drivers/:id`
+- `/teams`
+- `/teams/:id`
+- `/seasons`
+- `/seasons/:id`
+- `/builder`
+- `/my-grids`
+- `/grids/:id`
+- `/grids/:id/poster`
+
+### Admin
+
+- `/admin/login`
+- `/admin`
+- `/admin/teams`
+- `/admin/teams/new`
+- `/admin/teams/:id/edit`
+- `/admin/cars`
+- `/admin/drivers`
+- `/admin/drivers/new`
+- `/admin/drivers/:id/edit`
+- `/admin/seasons`
+- `/admin/assignments`
+- `/admin/lineups`
+- `/admin/media`
+- `/admin/settings`
+
+Protect all admin routes and ensure invalid identifiers, missing records, and unauthorized requests are handled gracefully.
+
+## 13. User Experience and Accessibility
+
+- Responsive navigation.
+- Mobile-friendly driver selectors.
+- Accessible labels and keyboard navigation.
+- Visible focus states.
+- Confirmation dialogs for destructive actions.
+- Toast notifications for successful and failed operations.
+- Image fallbacks.
+- Empty states with clear calls to action.
+- Consistent loading states.
+- Form validation messages.
+- Useful error boundaries.
+- No horizontal overflow on mobile.
+- Respect reduced-motion preferences.
+- Ensure readable text contrast.
+
+## 14. Performance and SEO
+
+- Lazy-load images.
+- Use appropriately sized thumbnails.
+- Avoid fetching full-resolution poster images for small cards.
+- Add pagination or virtualization when needed.
+- Optimize database queries and add indexes.
+- Add page titles, descriptions, canonical URLs where appropriate, and social sharing metadata.
+- Generate meaningful public metadata for team and driver profiles.
+- Avoid exposing private lineups or administrator information through metadata or cached responses.
+- Use caching that respects public/private access boundaries.
+
+## 15. Seed Data and Setup
+
+Provide an optional development seed script with clearly labeled sample data.
+
+Seed data should demonstrate:
+
+- Multiple constructors.
+- Multiple drivers.
+- Several historical car-season records.
+- Driver-team assignments across different seasons.
+- One fictional constructor.
+- A sample 10-team grid.
+
+Do not present illustrative records as verified real-world statistics.
+
+Provide a documented method to import additional teams, drivers, and historical records through the admin interface or a validated CSV import tool.
+
+The app must work with an empty database and display helpful empty states until an administrator adds data.
+
+## 16. Testing Requirements
+
+Implement tests for critical workflows.
+
+### Database and authorization
+
+- Public read access.
+- Administrator CRUD access.
+- Non-admin write rejection.
+- Private lineup isolation.
+- Storage upload permissions.
+- Driver code uniqueness.
+- Constructor-season uniqueness.
+- Driver assignment conflicts.
+
+### Application
+
+- Admin creates and edits a team.
+- Admin uploads a team logo.
+- Admin creates and edits a driver.
+- Admin uploads all three driver images.
+- Admin creates car records for multiple seasons.
+- Admin assigns drivers to constructor seats.
+- Public pages show newly added data.
+- User creates a custom 10-team grid.
+- User creates an 11-team grid.
+- User creates a 12-team grid.
+- Duplicate driver assignments are rejected.
+- User saves, edits, duplicates, and deletes a lineup.
+- Public and private visibility is respected.
+- Poster export generates a valid PNG file.
+
+Include unit tests, integration tests, and end-to-end tests for the most important flows.
+
+## 17. Deliverables
+
+Build and deliver:
+
+1. Complete responsive frontend.
+2. Functional admin dashboard.
+3. Supabase database migrations.
+4. RLS and storage policy migrations.
+5. Supabase client and typed data services.
+6. Image upload and replacement workflows.
+7. Team, driver, car, season, and assignment CRUD.
+8. Fully working custom grid editor.
+9. Saved and shareable custom lineups.
+10. High-resolution PNG poster export.
+11. Optional development seed script.
+12. Automated tests.
+13. `.env.example` with variable names only.
+14. README with setup, migration, seed, administrator provisioning, testing, and deployment instructions.
+
+## 18. Environment Configuration
+
+Use environment variables such as:
+
+`VITE_SUPABASE_URL`
+
+`VITE_SUPABASE_PUBLISHABLE_KEY`
+
+Never include real credentials in source code or committed environment files.
+
+Document how to create the Supabase project, apply migrations, configure Storage, create the first administrator securely, and deploy the application.
+
+## 19. Final Acceptance Criteria
+
+The project is complete only when:
+
+- The app starts successfully.
+- The database schema can be created from migrations.
+- The admin dashboard uses real Supabase data.
+- CRUD changes persist after page refresh.
+- Images upload to Supabase Storage and render correctly.
+- Public pages fetch current records from Supabase.
+- Historical seasons remain independent.
+- The grid editor supports 10, 11, and 12 teams.
+- Driver duplication is prevented.
+- Users can save and manage their own grids.
+- Public sharing respects access controls.
+- Poster export downloads a valid, high-resolution PNG.
+- RLS prevents unauthorized database writes.
+- No secret key is exposed in the browser.
+- Loading, error, empty, and success states are implemented.
+- The README enables another developer to set up and deploy the application.
+
+**Execution instruction:** Implement the complete application in working stages, starting with the database schema and security, then authentication and admin CRUD, followed by public data fetching, the Grid Builder, saved lineups, and poster export. Verify each stage before proceeding. Do not stop after generating the design, writing a plan, or creating placeholder pages. Deliver functional code, migrations, tests, and setup documentation. If Supabase credentials are not available, build the complete integration and provide a clear configuration checklist rather than pretending the live backend has been connected or tested.
